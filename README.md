@@ -59,7 +59,7 @@ flutter pub get
 
 You can download the Android APK from the following link:
 
-[Download APK](https://drive.google.com/file/d/18yIiHcsKdECIxcJLon34q0KzsyHDUhJj/view?usp=sharing)
+[Download APK](https://drive.google.com/file/d/1KSyh_s4yO3mT92X92PPUKrXdmd-M788E/view?usp=drive_link)
 
 ## Installation Instructions
 
