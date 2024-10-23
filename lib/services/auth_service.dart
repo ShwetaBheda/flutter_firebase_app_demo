@@ -12,7 +12,7 @@ class AuthService {
   Future<String?> registration({
     required String email,
     required String password,
-    required String username, // Added username parameter
+    required String username, 
   }) async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(

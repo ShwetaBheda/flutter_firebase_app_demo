@@ -1,6 +1,3 @@
-// lib/blocs/post/post_state.dart
-
-
 import 'package:flutter_task/model/post_model.dart';
 
 abstract class PostState {}

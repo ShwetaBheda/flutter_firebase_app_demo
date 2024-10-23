@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/blocs/post/post_event.dart';
 import 'package:flutter_task/blocs/post/post_state.dart';
@@ -7,7 +8,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   final PostService postService;
 
   PostBloc(this.postService) : super(PostLoading()) {
-    // Using 'on' instead of 'add' for handling events
+    // Load posts when the bloc is initialized
     on<LoadPosts>((event, emit) async {
       emit(PostLoading());
       try {
@@ -16,22 +17,26 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         }
       } catch (e, stackTrace) {
         emit(PostError('Failed to load posts.'));
-        // You can also log the error and stack trace if needed
-        print('Error: $e\nStackTrace: $stackTrace');
+
+        if (kDebugMode) {
+          print('Error: $e\nStackTrace: $stackTrace');
+        }
       }
     });
 
+    // Add post when the user sends a message
     on<AddPost>((event, emit) async {
       try {
         await postService.addPost(
           message: event.message,
           username: event.username,
         );
-        // Optionally, you can trigger loading posts again or handle it differently
       } catch (e, stackTrace) {
         emit(PostError('Failed to add post.'));
-        // Log the error and stack trace
-        print('Error: $e\nStackTrace: $stackTrace');
+
+        if (kDebugMode) {
+          print('Error: $e\nStackTrace: $stackTrace');
+        }
       }
     });
   }

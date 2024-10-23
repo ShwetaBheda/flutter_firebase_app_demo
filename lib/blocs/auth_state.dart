@@ -9,7 +9,7 @@ class AuthLoading extends AuthState {}
 class AuthSuccess extends AuthState {}
 
 class AuthFailure extends AuthState {
-  final String error; // Define the error parameter
+  final String error; 
 
-  AuthFailure({required this.error}); // Constructor to initialize the error
+  AuthFailure({required this.error}); 
 }

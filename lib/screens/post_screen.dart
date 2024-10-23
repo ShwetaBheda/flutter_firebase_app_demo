@@ -1,5 +1,3 @@
-// lib/screens/home_screen.dart
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,20 +8,28 @@ import 'package:flutter_task/common_widgets/post_input.dart';
 import 'package:flutter_task/services/post_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class HomeScreen extends StatelessWidget {
+class PostScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  PostScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final postService = PostService();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Chat'),
-        backgroundColor: Colors.blue,
+        title: const Text(
+          'Chat',
+          style: TextStyle(color: Colors.black),
+        ),
+        leading: const SizedBox(),
+        backgroundColor: Colors.greenAccent[100],
+        centerTitle: true,
       ),
       body: BlocProvider(
-        create: (_) => PostBloc(postService)..add(LoadPosts()), // Initialize BLoC and load posts
+        create: (_) => PostBloc(postService)..add(LoadPosts()),
         child: Column(
           children: [
             Expanded(
@@ -39,46 +45,93 @@ class HomeScreen extends StatelessWidget {
                     }
 
                     return ListView.builder(
-                      reverse: true, // Latest messages at the bottom
+                      reverse: true,
                       itemCount: posts.length,
                       itemBuilder: (context, index) {
                         final post = posts[index];
-                        final isCurrentUser = post.username == _auth.currentUser?.displayName;
+                        final isCurrentUser =
+                            post.username == _auth.currentUser?.displayName;
 
                         return Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 4),
                           child: Align(
-                            alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
+                            alignment: isCurrentUser
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
                             child: Container(
-                              padding: const EdgeInsets.all(12.0),
+                              constraints: BoxConstraints(
+                                  maxWidth: MediaQuery.of(context).size.width *
+                                      0.7), // Limits message width
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0, vertical: 8),
                               decoration: BoxDecoration(
-                                color: isCurrentUser ? Colors.blue : Colors.grey[300],
-                                borderRadius: BorderRadius.circular(20),
+                                color: isCurrentUser
+                                    ? Colors.greenAccent[100]
+                                    : Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(12),
+                                  topRight: const Radius.circular(12),
+                                  bottomLeft: isCurrentUser
+                                      ? const Radius.circular(12)
+                                      : Radius.zero,
+                                  bottomRight: isCurrentUser
+                                      ? Radius.zero
+                                      : const Radius.circular(12),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 1,
+                                    blurRadius: 2,
+                                    offset: const Offset(0, 1),
+                                  )
+                                ],
                               ),
                               child: Column(
-                                crossAxisAlignment: isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                                crossAxisAlignment: isCurrentUser
+                                    ? CrossAxisAlignment.end
+                                    : CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    post.username,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    post.message,
-                                    style: TextStyle(
-                                      color: isCurrentUser ? Colors.white : Colors.black,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    formatTimestamp(post.timestamp),
-                                    style: TextStyle(
-                                      color: isCurrentUser ? Colors.white70 : Colors.black54,
-                                      fontSize: 12,
-                                    ),
+                                  isCurrentUser
+                                      ? const SizedBox()
+                                      : Text(
+                                          post.username,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: isCurrentUser
+                                                ? Colors.black
+                                                : Colors.black54,
+                                          ),
+                                        ),
+                                  isCurrentUser
+                                      ? const SizedBox()
+                                      : const SizedBox(height: 5),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: isCurrentUser
+                                        ? MainAxisAlignment.end
+                                        : MainAxisAlignment.start,
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          post.message,
+                                          style: TextStyle(
+                                            color: isCurrentUser
+                                                ? Colors.black
+                                                : Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        formatTimestamp(post.timestamp),
+                                        style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -103,8 +156,11 @@ class HomeScreen extends StatelessWidget {
 
   String formatTimestamp(Timestamp timestamp) {
     final dateTime = timestamp.toDate();
-    final hour = dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12; // Convert to 12-hour format
-    final formattedTime = '$hour:${dateTime.minute.toString().padLeft(2, '0')} ${dateTime.hour >= 12 ? 'PM' : 'AM'}';
+    final hour = dateTime.hour % 12 == 0
+        ? 12
+        : dateTime.hour % 12; // Convert to 12-hour format
+    final formattedTime =
+        '$hour:${dateTime.minute.toString().padLeft(2, '0')} ${dateTime.hour >= 12 ? 'PM' : 'AM'}';
     return formattedTime;
   }
 }

@@ -9,12 +9,12 @@ abstract class AuthEvent extends Equatable {
 class SignUpRequested extends AuthEvent {
   final String email;
   final String password;
-  final String username; // Added username field
+  final String username; 
 
   const SignUpRequested({
     required this.email,
     required this.password,
-    required this.username, // Include in constructor
+    required this.username,
   });
 
   @override

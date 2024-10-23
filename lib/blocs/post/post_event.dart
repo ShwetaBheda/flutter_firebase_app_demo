@@ -10,10 +10,10 @@ class LoadPosts extends PostEvent {}
 class AddPost extends PostEvent {
   final String message;
   final String username;
-  final DateTime timestamp; // Add timestamp parameter
+  final DateTime timestamp; 
 
   AddPost({required this.message, required this.username, required this.timestamp});
 
   @override
-  List<Object> get props => [message, username, timestamp]; // Include timestamp in props
+  List<Object> get props => [message, username, timestamp]; 
 }

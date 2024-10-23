@@ -1,5 +1,3 @@
-// lib/services/post_service.dart
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_task/model/post_model.dart';
 
@@ -18,7 +16,7 @@ class PostService {
     await _firestore.collection('posts').add({
       'message': message,
       'username': username,
-      'timestamp': DateTime.now(), // Save server timestamp
+      'timestamp': DateTime.now(), 
     });
   }
 }
