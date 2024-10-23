@@ -55,4 +55,17 @@ flutter pub get
 
 4. flutter run
 
+## Download the APK
+
+You can download the Android APK from the following link:
+
+[Download APK](https://drive.google.com/file/d/18yIiHcsKdECIxcJLon34q0KzsyHDUhJj/view?usp=sharing)
+
+## Installation Instructions
+
+1. Download the APK file from the link above.
+2. Enable installation from unknown sources in your device settings.
+3. Open the downloaded APK file to install the application.
+4. Launch the app from your app drawer.
+
 
