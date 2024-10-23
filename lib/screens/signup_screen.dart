@@ -41,7 +41,8 @@ class SignUpScreen extends StatelessWidget {
           child: BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccess) {
-                Navigator.pushReplacementNamed(context, '/home');
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/home', (route) => false);
               } else if (state is AuthFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -91,6 +92,7 @@ class SignUpScreen extends StatelessWidget {
                 CustomTextFormField(
                   controller: passwordController,
                   label: 'Password',
+                  textInputAction: TextInputAction.done,
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -120,6 +122,8 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
+                        // Remove focus from any text fields
+                        FocusScope.of(context).unfocus();
                         if (formKey.currentState!.validate()) {
                           context.read<AuthBloc>().add(SignUpRequested(
                                 email: emailController.text,

@@ -69,6 +69,7 @@ class LoginScreen extends StatelessWidget {
                   controller: passwordController,
                   label: 'Password',
                   obscureText: true,
+                  textInputAction: TextInputAction.done,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your password';
@@ -89,8 +90,7 @@ class LoginScreen extends StatelessWidget {
                     }
                     return ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Colors.greenAccent[100], 
+                        backgroundColor: Colors.greenAccent[100],
                         padding: const EdgeInsets.symmetric(
                             horizontal: 50, vertical: 15),
                         shape: RoundedRectangleBorder(
@@ -98,6 +98,8 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
+                        // Remove focus from any text fields
+                        FocusScope.of(context).unfocus();
                         if (formKey.currentState!.validate()) {
                           context.read<AuthBloc>().add(LoginRequested(
                                 email: emailController.text,
