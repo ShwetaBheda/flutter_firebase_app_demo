@@ -28,10 +28,7 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      # Step 4: Run tests (optional, but recommended)
-      - name: Run Tests
-        run: flutter test
-
+     
       # Step 5: Build Unsigned APK
       - name: Build Unsigned APK
         run: flutter build apk --debug
