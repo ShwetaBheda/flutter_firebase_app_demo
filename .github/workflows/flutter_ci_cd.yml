@@ -29,11 +29,15 @@ jobs:
         run: flutter pub get
 
      
-      # Step 5: Build Unsigned APK
-      - name: Build Unsigned APK
+      - name: Run Tests
+        run: flutter test
+
+      - name: Build APK
         run: flutter build apk --debug
 
-      # Step 6: Upload APK as an artifact
+      - name: Verify APK Exists
+        run: ls -l build/app/outputs/flutter-apk/
+
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
