@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build-test:
+  main:
     runs-on: macos-latest  # Run on a macOS system
 
     steps:
