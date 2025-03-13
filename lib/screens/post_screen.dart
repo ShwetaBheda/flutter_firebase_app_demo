@@ -45,7 +45,7 @@ class PostScreen extends StatelessWidget {
                       if (posts.isEmpty) {
                         return const Center(child: Text('No posts yet.'));
                       }
-
+                      // Reverse the list to display the latest post first
                       return ListView.builder(
                         reverse: true,
                         itemCount: posts.length,

@@ -1,0 +1,44 @@
+name: Flutter CI/CD (No Signing)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test:
+    runs-on: macos-latest  # Run on a macOS system
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.24.3  # Change this to your Flutter version
+          channel: stable
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: flutter pub get
+
+      # Step 4: Run tests (optional, but recommended)
+      - name: Run Tests
+        run: flutter test
+
+      # Step 5: Build Unsigned APK
+      - name: Build Unsigned APK
+        run: flutter build apk --debug
+
+      # Step 6: Upload APK as an artifact
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
